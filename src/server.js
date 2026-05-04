@@ -1,15 +1,19 @@
 import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
+import reportsRoutes from './routes/reports.routes.js'
 
 // cargar variables de entorno
 dotenv.config()
 
 const app = express()
 
-// middlewares básicos
+// middlewares básicos (deben ir ANTES de las rutas)
 app.use(cors())
 app.use(express.json())
+
+// rutas
+app.use('/api/reports', reportsRoutes)
 
 // ruta de prueba
 app.get('/', (req, res) => {
