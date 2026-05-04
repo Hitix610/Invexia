@@ -2,7 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import reportsRoutes from './routes/reports.routes.js'
-
+import transactionsRoutes from './routes/transactions.routes.js'
 // cargar variables de entorno
 dotenv.config()
 
@@ -12,8 +12,10 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
+
 // rutas
 app.use('/api/reports', reportsRoutes)
+app.use('/transactions', transactionsRoutes)
 
 // ruta de prueba
 app.get('/', (req, res) => {

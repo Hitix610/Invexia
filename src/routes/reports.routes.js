@@ -8,7 +8,7 @@ import { getSummaryController } from '../controllers/reports.controller.js'
 const router = express.Router()
 
 // Define la ruta GET /reports/summary y la conecta con su controlador
-router.get('/reports/summary', getSummaryController)
+router.get('/summary', getSummaryController)
 
 // Exporta el enrutador para usarlo en server.js
 export default router
