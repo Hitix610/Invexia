@@ -1,4 +1,5 @@
 /*services/transactions.service.js*/
+/*get all transactions*/
 export const getTransactionsService = async () => {
   return [
     { id: 1, amount: 50000, type: 'gasto' },
@@ -8,7 +9,14 @@ export const getTransactionsService = async () => {
 
 /*------------------------------------------------------------------------------*/
 
-/*CONECTAR EN server.js*/
-//import transactionsRoutes from './routes/transactions.routes.js'
+/*services/transactions.service.js*/
+/*post a new transaction*/
+export const createTransactionService = async ({ amount, type }) => {
+  const newTransaction = {
+    id: Date.now(),
+    amount,
+    type
+  }
 
-//app.use('/transactions', transactionsRoutes)
+  return newTransaction
+}
