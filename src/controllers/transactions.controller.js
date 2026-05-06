@@ -19,11 +19,13 @@ import { createTransactionService } from '../services/transactions.service.js'
 
 export const createTransaction = async (req, res) => {
   try {
+    console.log(req.body)
+
     const { amount, type } = req.body
 
-    const newTransaction = await createTransactionService({ amount, type })
+    const data = await createTransactionService({ amount, type })
 
-    res.status(201).json(newTransaction)
+    res.status(201).json(data)
   } catch (error) {
     res.status(500).json({ error: error.message })
   }

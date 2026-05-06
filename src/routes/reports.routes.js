@@ -12,3 +12,4 @@ router.get('/summary', getSummaryController)
 
 // Exporta el enrutador para usarlo en server.js
 export default router
+
