@@ -1,17 +1,29 @@
 /*routes/transactions.routes.js*/
-/*get all transactions*/
-import express from 'express'
-import { getTransactions } from '../controllers/transactions.controller.js'
 
-const router = express.Router()
+// Rutas para transacciones
+import { Router } from 'express'
 
+// controllers
+import {
+  getTransactions,
+  createTransaction,
+  updateTransaction,
+  deleteTransaction
+} from '../controllers/transactions.controller.js'
+
+// services
+const router = Router()
+
+// GET all transactions
 router.get('/', getTransactions)
 
-export default router
-/*------------------------------------------------------------------------------*/
-
-/*controllers/transactions.controller.js*/
-/*post a new transaction*/
-import { createTransaction } from '../controllers/transactions.controller.js'
-
+// POST a new transaction
 router.post('/', createTransaction)
+
+// PUT update a transaction
+router.put('/:id', updateTransaction)
+
+// DELETE a transaction
+router.delete('/:id', deleteTransaction)
+
+export default router

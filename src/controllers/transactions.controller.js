@@ -30,3 +30,46 @@ export const createTransaction = async (req, res) => {
     res.status(500).json({ error: error.message })
   }
 }
+
+/*------------------------------------------------------------------------------*/
+
+
+import {
+  updateTransactionService,
+  deleteTransactionService
+} from '../services/transactions.service.js'
+
+
+//update a transaction
+export const updateTransaction = async (req, res) => {
+  try {
+    const { id } = req.params
+    const { amount, type } = req.body
+
+    const data = await updateTransactionService(id, { 
+      monto: amount,
+      tipo: type 
+    })
+
+    res.json(data)
+  } catch (error) {
+    res.status(500).json({ error: error.mesage})
+  }
+}
+
+/*------------------------------------------------------------------------------*/  
+
+
+//delete a transaction
+export const deleteTransaction = async (req, res) => {
+  try {
+    const { id } = req.params
+
+    const data = await deleteTransactionService(id)
+
+    res.json(data)
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+}
+

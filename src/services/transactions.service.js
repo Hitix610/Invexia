@@ -40,3 +40,40 @@ export const createTransactionService = async ({ amount, type }) => {
 
   return data
 }
+
+/*------------------------------------------------------------------------------*/
+
+/*services/transactions.service.js*/
+/*update a transaction*/
+// PUt 
+
+export const updateTransactionService = async (id, updates) => {
+  const {data,error} = await supabase
+    .from('transacciones')
+    .update(updates)
+    .eq('id', id)
+    .select()
+
+    if (error) throw new Error(error.message)
+
+      return data
+}
+
+/*------------------------------------------------------------------------------*/
+
+/*services/transactions.service.js*/
+/*delete a transaction*/
+// DELETE
+
+export const deleteTransactionService = async (id) => {
+  const {data,error} = await supabase
+    .from('transacciones')
+    .delete()
+    .eq('id', id)
+
+    if (error) throw new Error(error.message)
+
+      return {message: 'Transacción eliminada exitosamente'}
+}
+
+/*------------------------------------------------------------------------------*/

@@ -15,7 +15,7 @@ app.use(express.json())
 
 // rutas
 app.use('/api/reports', reportsRoutes)
-app.use('/transactions', transactionsRoutes)
+app.use('/api/transactions', transactionsRoutes)
 
 // ruta de prueba
 app.get('/', (req, res) => {
