@@ -76,4 +76,19 @@ export const deleteTransactionService = async (id) => {
       return {message: 'Transacción eliminada exitosamente'}
 }
 
+// Obtener transacciones ordenadas por fecha
+export const getTransactionsHistoryService = async () => {
+
+  const { data, error } = await supabase
+    .from('transacciones')
+    .select('*')
+    .order('fecha', { ascending: false })
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  return data
+}
+
 /*------------------------------------------------------------------------------*/

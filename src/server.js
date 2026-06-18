@@ -3,6 +3,7 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import reportsRoutes from './routes/reports.routes.js'
 import transactionsRoutes from './routes/transactions.routes.js'
+import semaforoRoutes from './routes/semaforo.routes.js'
 // cargar variables de entorno
 dotenv.config()
 
@@ -16,6 +17,7 @@ app.use(express.json())
 // rutas
 app.use('/api/reports', reportsRoutes)
 app.use('/api/transactions', transactionsRoutes)
+app.use('/api/semaforo', semaforoRoutes)
 
 // ruta de prueba
 app.get('/', (req, res) => {
