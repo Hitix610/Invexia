@@ -27,3 +27,9 @@ router.put('/:id', updateTransaction)
 router.delete('/:id', deleteTransaction)
 
 export default router
+
+
+import { validateTransaction } from '../middleware/validateTransaction.js'
+
+router.post('/', validateTransaction, createTransaction)
+

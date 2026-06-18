@@ -22,6 +22,8 @@ export const getTransactionsService = async () => {
 /*post a new transaction*/
 // POST
 export const createTransactionService = async ({ amount, type }) => {
+  console.log("Entrando al servicio...")
+
   const usuario_id = "9f0c0b7c-0ed9-4c68-b30f-2f697b6730f1"
 
   const { data, error } = await supabase
@@ -36,7 +38,12 @@ export const createTransactionService = async ({ amount, type }) => {
     ])
     .select()
 
-  if (error) throw new Error(error.message)
+  console.log("Respuesta Supabase:", data)
+
+  if (error) {
+    console.log("Error Supabase:", error)
+    throw new Error(error.message)
+  }
 
   return data
 }
