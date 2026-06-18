@@ -1,35 +1,39 @@
 /*routes/transactions.routes.js*/
 
-// Rutas para transacciones
+// Importar Router de Express
 import { Router } from 'express'
 
-// controllers
+// Importar controladores
 import {
   getTransactions,
   createTransaction,
   updateTransaction,
-  deleteTransaction
+  deleteTransaction,
+  getTransactionsHistory
 } from '../controllers/transactions.controller.js'
 
-// services
+// Crear instancia del router
 const router = Router()
 
-// GET all transactions
+// GET todas las transacciones
 router.get('/', getTransactions)
 
-// POST a new transaction
+// 👇 Ruta del historial
+router.get('/history', getTransactionsHistory)
+
+// POST nueva transacción
 router.post('/', createTransaction)
 
-// PUT update a transaction
+// PUT actualizar transacción
 router.put('/:id', updateTransaction)
 
-// DELETE a transaction
+// DELETE eliminar transacción
 router.delete('/:id', deleteTransaction)
 
+<<<<<<< HEAD
 export default router
 
 
 import { validateTransaction } from '../middleware/validateTransaction.js'
 
 router.post('/', validateTransaction, createTransaction)
-

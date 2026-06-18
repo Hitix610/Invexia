@@ -1,29 +1,65 @@
-// Importa la función que obtiene las transacciones desde la capa de datos
+// Importamos la función que obtiene las transacciones
 import { getTransactionsService } from './transactions.service.js'
 
-// Función principal que calcula el resumen financiero
+// ==========================================
+// RESUMEN FINANCIERO
+// ==========================================
 export const getSummary = async () => {
-  
-  // Obtiene todas las transacciones disponibles
+
   const transactions = await getTransactionsService()
 
-  // Inicializa los acumuladores de ingresos y gastos en cero
   let income = 0
   let expense = 0
 
-  // Recorre cada transacción y la clasifica según su tipo
   transactions.forEach(t => {
-    if (t.type === 'ingreso') {
-      income += t.amount   // Suma al total de ingresos
-    } else {
-      expense += t.amount  // Suma al total de gastos
+
+    if (t.tipo === 'ingreso') {
+      income += Number(t.monto)
+    }
+
+    else if (t.tipo === 'gasto') {
+      expense += Number(t.monto)
     }
   })
 
-  // Retorna el resumen con ingresos, gastos y balance final
   return {
     income,
     expense,
-    balance: income - expense  // Balance = ingresos - gastos
+    balance: income - expense
   }
+}
+
+// ==========================================
+// GASTOS POR CATEGORÍA
+// ==========================================
+export const getExpensesByCategory = async () => {
+
+  const transactions = await getTransactionsService()
+
+  // Objeto donde agruparemos los gastos
+  const categories = {}
+
+  transactions.forEach(t => {
+
+    // Solo analizamos gastos
+    if (t.tipo === 'gasto') {
+
+      // Si no tiene categoría mostramos "Sin categoría"
+      const category = t.categoria_id || 'Sin categoría'
+
+      // Si la categoría no existe la iniciamos en 0
+      if (!categories[category]) {
+        categories[category] = 0
+      }
+
+      // Sumamos el monto
+      categories[category] += Number(t.monto)
+    }
+  })
+
+  // Convertimos el objeto a arreglo
+  return Object.entries(categories).map(([categoria, total]) => ({
+    categoria,
+    total
+  }))
 }

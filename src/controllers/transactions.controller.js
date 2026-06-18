@@ -1,66 +1,73 @@
-/*controllers/transactions.controller.js*/
-/*get all transactions*/
-import { getTransactionsService } from '../services/transactions.service.js'
+// Importamos todos los servicios relacionados con transacciones
+import {
+  getTransactionsService,
+  createTransactionService,
+  updateTransactionService,
+  deleteTransactionService,
+  getTransactionsHistoryService
+} from '../services/transactions.service.js'
 
+// ======================================================
+// GET - Obtener todas las transacciones
+// ======================================================
 export const getTransactions = async (req, res) => {
   try {
     const data = await getTransactionsService()
+
     res.json(data)
   } catch (error) {
-    res.status(500).json({ error: error.message })
+    res.status(500).json({
+      error: error.message
+    })
   }
 }
 
-/*------------------------------------------------------------------------------*/
-
-/*controllers/transactions.controller.js*/
-/*post a new transaction*/
-import { createTransactionService } from '../services/transactions.service.js'
-
+// ======================================================
+// POST - Crear una nueva transacción
+// ======================================================
 export const createTransaction = async (req, res) => {
   try {
     console.log(req.body)
 
     const { amount, type } = req.body
 
-    const data = await createTransactionService({ amount, type })
+    const data = await createTransactionService({
+      amount,
+      type
+    })
 
     res.status(201).json(data)
   } catch (error) {
-    res.status(500).json({ error: error.message })
+    res.status(500).json({
+      error: error.message
+    })
   }
 }
 
-/*------------------------------------------------------------------------------*/
-
-
-import {
-  updateTransactionService,
-  deleteTransactionService
-} from '../services/transactions.service.js'
-
-
-//update a transaction
+// ======================================================
+// PUT - Actualizar una transacción existente
+// ======================================================
 export const updateTransaction = async (req, res) => {
   try {
     const { id } = req.params
     const { amount, type } = req.body
 
-    const data = await updateTransactionService(id, { 
+    const data = await updateTransactionService(id, {
       monto: amount,
-      tipo: type 
+      tipo: type
     })
 
     res.json(data)
   } catch (error) {
-    res.status(500).json({ error: error.mesage})
+    res.status(500).json({
+      error: error.message
+    })
   }
 }
 
-/*------------------------------------------------------------------------------*/  
-
-
-//delete a transaction
+// ======================================================
+// DELETE - Eliminar una transacción
+// ======================================================
 export const deleteTransaction = async (req, res) => {
   try {
     const { id } = req.params
@@ -69,7 +76,23 @@ export const deleteTransaction = async (req, res) => {
 
     res.json(data)
   } catch (error) {
-    res.status(500).json({ error: error.message })
+    res.status(500).json({
+      error: error.message
+    })
   }
 }
 
+// ======================================================
+// GET - Historial de transacciones ordenado por fecha
+// ======================================================
+export const getTransactionsHistory = async (req, res) => {
+  try {
+    const data = await getTransactionsHistoryService()
+
+    res.json(data)
+  } catch (error) {
+    res.status(500).json({
+      error: error.message
+    })
+  }
+}
