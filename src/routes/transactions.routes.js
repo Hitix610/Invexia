@@ -3,6 +3,9 @@
 // Importar Router de Express
 import { Router } from 'express'
 
+// Importar middleware de autenticación
+import { authMiddleware } from '../middleware/auth.js'
+
 // Importar controladores
 import {
   getTransactions,
@@ -15,25 +18,20 @@ import {
 // Crear instancia del router
 const router = Router()
 
-// GET todas las transacciones
-router.get('/', getTransactions)
+// Definir rutas para transacciones con middleware de autenticación
+//get para obtener las transacciones del usuario
+router.get('/', authMiddleware, getTransactions)
 
-// 👇 Ruta del historial
-router.get('/history', getTransactionsHistory)
+//get para obtener el historial de transacciones del usuario
+router.get('/history', authMiddleware, getTransactionsHistory)
 
-// POST nueva transacción
-router.post('/', createTransaction)
+//post para crear una nueva transacción
+router.post('/', authMiddleware, createTransaction)
 
-// PUT actualizar transacción
-router.put('/:id', updateTransaction)
+//put para actualizar una transacción existente
+router.put('/:id', authMiddleware, updateTransaction)
 
-// DELETE eliminar transacción
-router.delete('/:id', deleteTransaction)
+//delete para eliminar una transacción existente
+router.delete('/:id', authMiddleware, deleteTransaction)
 
-<<<<<<< HEAD
 export default router
-
-
-import { validateTransaction } from '../middleware/validateTransaction.js'
-
-router.post('/', validateTransaction, createTransaction)

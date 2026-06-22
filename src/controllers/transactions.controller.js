@@ -12,7 +12,7 @@ import {
 // ======================================================
 export const getTransactions = async (req, res) => {
   try {
-    const data = await getTransactionsService()
+    const data = await getTransactionsService(req.user.id)
 
     res.json(data)
   } catch (error) {
@@ -33,7 +33,8 @@ export const createTransaction = async (req, res) => {
 
     const data = await createTransactionService({
       amount,
-      type
+      type,
+      usuario_id: req.user.id
     })
 
     res.status(201).json(data)
@@ -87,7 +88,7 @@ export const deleteTransaction = async (req, res) => {
 // ======================================================
 export const getTransactionsHistory = async (req, res) => {
   try {
-    const data = await getTransactionsHistoryService()
+    const data = await getTransactionsHistoryService(req.user.id)
 
     res.json(data)
   } catch (error) {

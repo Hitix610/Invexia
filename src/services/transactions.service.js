@@ -3,10 +3,11 @@
 import { supabase } from '../config/supabase.js'
 
 // GET
-export const getTransactionsService = async () => {
+export const getTransactionsService = async (usuario_id) => {
   const { data, error } = await supabase
-    .from('transacciones')
-    .select('*')
+  .from('transacciones')
+  .select('*')
+  .eq('usuario_id', usuario_id)
 
   if (error) {
     throw new Error(error.message)
@@ -21,10 +22,8 @@ export const getTransactionsService = async () => {
 /*services/transactions.service.js*/
 /*post a new transaction*/
 // POST
-export const createTransactionService = async ({ amount, type }) => {
+export const createTransactionService = async ({amount,type,usuario_id}) => {
   console.log("Entrando al servicio...")
-
-  const usuario_id = "9f0c0b7c-0ed9-4c68-b30f-2f697b6730f1"
 
   const { data, error } = await supabase
     .from('transacciones')
@@ -84,11 +83,12 @@ export const deleteTransactionService = async (id) => {
 }
 
 // Obtener transacciones ordenadas por fecha
-export const getTransactionsHistoryService = async () => {
+export const getTransactionsHistoryService = async (usuario_id) => {
 
   const { data, error } = await supabase
     .from('transacciones')
     .select('*')
+    .eq('usuario_id', usuario_id)
     .order('fecha', { ascending: false })
 
   if (error) {
