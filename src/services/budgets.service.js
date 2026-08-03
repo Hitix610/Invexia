@@ -12,3 +12,33 @@ export const getBudgetsService = async (usuario_id) => {
 
     return data 
 }
+
+//create a new budget
+
+export const createBudgetService = async ({
+  usuario_id,
+  categoria_id,
+  monto_limite,
+  mes,
+  anio
+}) => {
+  const { data, error } = await supabase
+    .from('presupuestos')
+    .insert([
+      {
+        usuario_id,
+        categoria_id,
+        monto_limite,
+        mes,
+        anio
+      }
+    ])
+    .select()
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  return data
+}
+

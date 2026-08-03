@@ -5,6 +5,7 @@ import reportsRoutes from './routes/reports.routes.js'
 import transactionsRoutes from './routes/transactions.routes.js'
 import semaforoRoutes from './routes/semaforo.routes.js'
 import budgetsRoutes from './routes/budgets.routes.js'
+import authRoutes from './routes/auth.routes.js'
 // cargar variables de entorno
 dotenv.config()
 
@@ -20,6 +21,7 @@ app.use('/api/reports', reportsRoutes)
 app.use('/api/transactions', transactionsRoutes)
 app.use('/api/semaforo', semaforoRoutes)
 app.use('/api/budgets', budgetsRoutes)
+app.use('/api/auth', authRoutes)
 
 // ruta de prueba
 app.get('/', (req, res) => {
