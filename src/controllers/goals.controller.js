@@ -11,7 +11,7 @@ import {
 // ==========================================
 export const getGoals = async (req, res) => {
   try {
-    const data = await getGoalsService()
+    const data = await getGoalsService(req.user.id)
     res.json(data)
   } catch (error) {
     res.status(500).json({ error: error.message })
@@ -23,7 +23,7 @@ export const getGoals = async (req, res) => {
 // ==========================================
 export const createGoal = async (req, res) => {
   try {
-    const data = await createGoalService(req.body)
+    const data = await createGoalService(req.body, req.user.id)
     res.status(201).json(data)
   } catch (error) {
     res.status(500).json({ error: error.message })
@@ -37,7 +37,7 @@ export const updateGoal = async (req, res) => {
   try {
     const { id } = req.params
 
-    const data = await updateGoalService(id, req.body)
+    const data = await updateGoalService(id, req.user.id, req.body)
 
     res.json(data)
   } catch (error) {
@@ -52,7 +52,7 @@ export const deleteGoal = async (req, res) => {
   try {
     const { id } = req.params
 
-    const data = await deleteGoalService(id)
+    const data = await deleteGoalService(id, req.user.id)
 
     res.json(data)
   } catch (error) {

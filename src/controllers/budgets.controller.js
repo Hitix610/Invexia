@@ -1,6 +1,8 @@
 import {
   getBudgetsService,
-  createBudgetService
+  createBudgetService,
+  updateBudgetService,
+  deleteBudgetService
 } from '../services/budgets.service.js'
 
 export const getBudgets = async (req, res) => {
@@ -33,5 +35,35 @@ export const createBudget = async (req, res) => {
     res.status(500).json({
       error: error.message
     })
+  }
+}
+
+export const updateBudget = async (req, res) => {
+  try {
+    const { id } = req.params
+    const { categoria_id, monto_limite, mes, anio } = req.body
+
+    const data = await updateBudgetService(id, req.user.id, {
+      categoria_id,
+      monto_limite,
+      mes,
+      anio
+    })
+
+    res.json(data)
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+}
+
+export const deleteBudget = async (req, res) => {
+  try {
+    const { id } = req.params
+
+    const data = await deleteBudgetService(id, req.user.id)
+
+    res.json(data)
+  } catch (error) {
+    res.status(500).json({ error: error.message })
   }
 }

@@ -1,13 +1,9 @@
-// Importar la conexión con Supabase
 import { supabase } from '../config/supabase.js'
-
-// Usuario temporal de pruebas
-const usuario_id = '9f0c0b7c-0ed9-4c68-b30f-2f697b6730f1'
 
 // ==========================================
 // GET - Obtener todas las metas
 // ==========================================
-export const getGoalsService = async () => {
+export const getGoalsService = async (usuario_id) => {
 
   const { data, error } = await supabase
     .from('metas_ahorro')
@@ -24,7 +20,7 @@ export const getGoalsService = async () => {
 // ==========================================
 // POST - Crear una meta
 // ==========================================
-export const createGoalService = async (goal) => {
+export const createGoalService = async (goal, usuario_id) => {
 
   const { data, error } = await supabase
     .from('metas_ahorro')
@@ -49,12 +45,13 @@ export const createGoalService = async (goal) => {
 // ==========================================
 // PUT - Actualizar una meta
 // ==========================================
-export const updateGoalService = async (id, updates) => {
+export const updateGoalService = async (id, usuario_id, updates) => {
 
   const { data, error } = await supabase
     .from('metas_ahorro')
     .update(updates)
     .eq('id', id)
+    .eq('usuario_id', usuario_id)
     .select()
 
   if (error) {
@@ -67,12 +64,13 @@ export const updateGoalService = async (id, updates) => {
 // ==========================================
 // DELETE - Eliminar una meta
 // ==========================================
-export const deleteGoalService = async (id) => {
+export const deleteGoalService = async (id, usuario_id) => {
 
   const { error } = await supabase
     .from('metas_ahorro')
     .delete()
     .eq('id', id)
+    .eq('usuario_id', usuario_id)
 
   if (error) {
     throw new Error(error.message)

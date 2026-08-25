@@ -42,3 +42,38 @@ export const createBudgetService = async ({
   return data
 }
 
+// update a budget
+
+export const updateBudgetService = async (id, usuario_id, updates) => {
+  const { data, error } = await supabase
+    .from('presupuestos')
+    .update(updates)
+    .eq('id', id)
+    .eq('usuario_id', usuario_id)
+    .select()
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  return data
+}
+
+// delete a budget
+
+export const deleteBudgetService = async (id, usuario_id) => {
+  const { error } = await supabase
+    .from('presupuestos')
+    .delete()
+    .eq('id', id)
+    .eq('usuario_id', usuario_id)
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  return { message: 'Presupuesto eliminado correctamente' }
+}
+
+
+

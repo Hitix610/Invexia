@@ -1,6 +1,9 @@
 // Importar Router de Express
 import { Router } from 'express'
 
+// Importar middleware de autenticación
+import { authMiddleware } from '../middleware/auth.js'
+
 // Importar los controladores
 import {
   getGoals,
@@ -15,22 +18,22 @@ const router = Router()
 // ==========================================
 // GET - Obtener todas las metas
 // ==========================================
-router.get('/', getGoals)
+router.get('/', authMiddleware, getGoals)
 
 // ==========================================
 // POST - Crear una nueva meta
 // ==========================================
-router.post('/', createGoal)
+router.post('/', authMiddleware, createGoal)
 
 // ==========================================
 // PUT - Actualizar una meta
 // ==========================================
-router.put('/:id', updateGoal)
+router.put('/:id', authMiddleware, updateGoal)
 
 // ==========================================
 // DELETE - Eliminar una meta
 // ==========================================
-router.delete('/:id', deleteGoal)
+router.delete('/:id', authMiddleware, deleteGoal)
 
 // Exportar el router
 export default router
