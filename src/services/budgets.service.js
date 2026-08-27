@@ -75,5 +75,23 @@ export const deleteBudgetService = async (id, usuario_id) => {
   return { message: 'Presupuesto eliminado correctamente' }
 }
 
+export const calcularGastadoService = async (usuario_id, categoria_id, mes, anio) => {
 
+  const { data, error } = await supabase
+    .from('transacciones')
+    .select('monto')
+    .eq('usuario_id', usuario_id)
+    .eq('categoria_id', categoria_id)
+    .eq('tipo', 'gasto')
+    .gte('fecha', `${anio}-${String(mes).padStart(2, '0')}-01`)
+    .lte('fecha', `${anio}-${String(mes).padStart(2, '0')}-31`)
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  const total = data.reduce((sum, t) => sum + Number(t.monto), 0)
+
+  return total
+}
 
