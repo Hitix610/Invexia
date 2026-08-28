@@ -13,9 +13,10 @@ import {
   getGoals,
   createGoal,
   updateGoal,
-  deleteGoal
+  deleteGoal,
+  createGoalContribution,
+  getGoalContributions
 } from '../controllers/goals.controller.js'
-
 // Crear el router
 const router = Router()
 
@@ -38,6 +39,18 @@ router.put('/:id', authMiddleware, validateGoalUpdate, updateGoal)
 // DELETE - Eliminar una meta
 // ==========================================
 router.delete('/:id', authMiddleware, deleteGoal)
+
+// ==========================================
+// POST - Crear un aporte
+// ==========================================
+router.post(
+  '/:id/aportes', authMiddleware, createGoalContribution)
+
+// ==========================================
+// GET - Obtener aportes
+// ==========================================
+router.get(
+  '/:id/aportes', authMiddleware, getGoalContributions)
 
 // Exportar el router
 export default router

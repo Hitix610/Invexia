@@ -80,3 +80,56 @@ export const deleteGoalService = async (id, usuario_id) => {
     message: 'Meta eliminada correctamente'
   }
 }
+
+// ==========================================
+// POST - Crear un aporte a una meta
+// ==========================================
+export const createGoalContributionService = async (
+  meta_id,
+  usuario_id,
+  monto,
+  nota
+) => {
+
+  const { data, error } = await supabase
+    .from('aportes_metas')
+    .insert([
+      {
+        meta_id,
+        usuario_id,
+        monto,
+        nota: nota || null,
+        fecha: new Date().toISOString().split('T')[0]
+      }
+    ])
+    .select()
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  return data
+}
+
+
+// ==========================================
+// GET - Obtener aportes de una meta
+// ==========================================
+export const getGoalContributionsService = async (
+  meta_id,
+  usuario_id
+) => {
+
+  const { data, error } = await supabase
+    .from('aportes_metas')
+    .select('*')
+    .eq('meta_id', meta_id)
+    .eq('usuario_id', usuario_id)
+    .order('fecha', { ascending: false })
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  return data
+}

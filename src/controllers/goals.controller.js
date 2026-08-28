@@ -3,7 +3,9 @@ import {
   getGoalsService,
   createGoalService,
   updateGoalService,
-  deleteGoalService
+  deleteGoalService,
+  createGoalContributionService,
+  getGoalContributionsService
 } from '../services/goals.service.js'
 
 // ==========================================
@@ -57,5 +59,64 @@ export const deleteGoal = async (req, res) => {
     res.json(data)
   } catch (error) {
     res.status(500).json({ error: error.message })
+  }
+}
+// ==========================================
+// POST - Crear un aporte a una meta
+// ==========================================
+export const createGoalContribution = async (req, res) => {
+  try {
+
+    const { id } = req.params
+    const { monto, nota } = req.body
+
+    const data = await createGoalContributionService(
+      id,
+      req.user.id,
+      monto,
+      nota
+    )
+
+    res.status(201).json(data)
+
+  } catch (error) {
+
+    console.error(
+      'CREATE CONTRIBUTION ERROR:',
+      error.message
+    )
+
+    res.status(500).json({
+      error: error.message
+    })
+  }
+}
+
+
+// ==========================================
+// GET - Obtener aportes de una meta
+// ==========================================
+export const getGoalContributions = async (req, res) => {
+  try {
+
+    const { id } = req.params
+
+    const data = await getGoalContributionsService(
+      id,
+      req.user.id
+    )
+
+    res.json(data)
+
+  } catch (error) {
+
+    console.error(
+      'GET CONTRIBUTIONS ERROR:',
+      error.message
+    )
+
+    res.status(500).json({
+      error: error.message
+    })
   }
 }
