@@ -95,3 +95,45 @@ export const calcularGastadoService = async (usuario_id, categoria_id, mes, anio
   return total
 }
 
+export const verificarAlertaPresupuestoService = async (usuario_id, categoria_id, mes, anio) => {
+
+  const { data: presupuestos, error } = await supabase
+    .from('presupuestos')
+    .select('*')
+    .eq('usuario_id', usuario_id)
+    .eq('categoria_id', categoria_id)
+    .eq('mes', mes)
+    .eq('anio', anio)
+    .single()
+
+  if (error || !presupuestos) {
+    return null
+  }
+
+  const gastado = await calcularGastadoService(usuario_id, categoria_id, mes, anio)
+  const porcentaje = (gastado / presupuestos.monto_limite) * 100
+
+  const updates = {}
+
+  if (porcentaje >= 100 && !presupuestos.alerta_100_enviada) {
+    updates.alerta_100_enviada = true
+  } else if (porcentaje >= 80 && !presupuestos.alerta_80_enviada) {
+    updates.alerta_80_enviada = true
+  }
+
+  if (Object.keys(updates).length > 0) {
+    await supabase
+      .from('presupuestos')
+      .update(updates)
+      .eq('id', presupuestos.id)
+  }
+
+  return {
+    presupuesto_id: presupuestos.id,
+    gastado,
+    monto_limite: presupuestos.monto_limite,
+    porcentaje: Math.round(porcentaje),
+    alertas: updates
+  }
+}
+

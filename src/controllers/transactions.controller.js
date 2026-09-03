@@ -7,6 +7,7 @@ import {
   getTransactionsHistoryService
 } from '../services/transactions.service.js'
 
+
 // ======================================================
 // GET - Obtener todas las transacciones
 // ======================================================
@@ -22,22 +23,41 @@ export const getTransactions = async (req, res) => {
   }
 }
 
+import { verificarAlertaPresupuestoService } from '../services/budgets.service.js'
+
 // ======================================================
 // POST - Crear una nueva transacción
 // ======================================================
 export const createTransaction = async (req, res) => {
   try {
-    console.log(req.body)
-
-    const { amount, type } = req.body
+    const { amount, type, categoria_id } = req.body
 
     const data = await createTransactionService({
       amount,
       type,
+      categoria_id,
       usuario_id: req.user.id
     })
 
-    res.status(201).json(data)
+    let alerta = null
+
+    if (type === 'gasto' && categoria_id) {
+      const fecha = new Date()
+      const mes = fecha.getMonth() + 1
+      const anio = fecha.getFullYear()
+
+      alerta = await verificarAlertaPresupuestoService(
+        req.user.id,
+        categoria_id,
+        mes,
+        anio
+      )
+    }
+
+    res.status(201).json({
+      transaccion: data,
+      alerta
+    })
   } catch (error) {
     res.status(500).json({
       error: error.message

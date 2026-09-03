@@ -22,14 +22,13 @@ export const getTransactionsService = async (usuario_id) => {
 /*services/transactions.service.js*/
 /*post a new transaction*/
 // POST
-export const createTransactionService = async ({amount,type,usuario_id}) => {
-  console.log("Entrando al servicio...")
-
+export const createTransactionService = async ({amount, type, categoria_id, usuario_id}) => {
   const { data, error } = await supabase
     .from('transacciones')
     .insert([
       {
         usuario_id,
+        categoria_id,
         monto: amount,
         tipo: type,
         fecha: new Date()
@@ -37,10 +36,7 @@ export const createTransactionService = async ({amount,type,usuario_id}) => {
     ])
     .select()
 
-  console.log("Respuesta Supabase:", data)
-
   if (error) {
-    console.log("Error Supabase:", error)
     throw new Error(error.message)
   }
 
