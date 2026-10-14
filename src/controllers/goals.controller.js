@@ -7,16 +7,18 @@ import {
   createGoalContributionService,
   getGoalContributionsService
 } from '../services/goals.service.js'
+import { handleError } from '../lib/errors.js'
+
+const ESTADOS_META = ['activa', 'completada', 'pausada', 'cancelada']
 
 // ==========================================
 // GET - Obtener todas las metas
 // ==========================================
 export const getGoals = async (req, res) => {
   try {
-    const data = await getGoalsService(req.user.id)
-    res.json(data)
+    res.json(await getGoalsService(req.user.id))
   } catch (error) {
-    res.status(500).json({ error: error.message })
+    handleError(res, error, 'GET GOALS')
   }
 }
 
@@ -25,10 +27,9 @@ export const getGoals = async (req, res) => {
 // ==========================================
 export const createGoal = async (req, res) => {
   try {
-    const data = await createGoalService(req.body, req.user.id)
-    res.status(201).json(data)
+    res.status(201).json(await createGoalService(req.body, req.user.id))
   } catch (error) {
-    res.status(500).json({ error: error.message })
+    handleError(res, error, 'CREATE GOAL')
   }
 }
 
@@ -38,12 +39,29 @@ export const createGoal = async (req, res) => {
 export const updateGoal = async (req, res) => {
   try {
     const { id } = req.params
+    const { nombre, descripcion, monto_objetivo, fecha_limite, icono, color, estado } = req.body
 
-    const data = await updateGoalService(id, req.user.id, req.body)
+    const updates = {}
+    if (nombre !== undefined) updates.nombre = nombre
+    if (descripcion !== undefined) updates.descripcion = descripcion
+    if (monto_objetivo !== undefined) updates.monto_objetivo = monto_objetivo
+    if (fecha_limite !== undefined) updates.fecha_limite = fecha_limite
+    if (icono !== undefined) updates.icono = icono
+    if (color !== undefined) updates.color = color
+    if (estado !== undefined) {
+      if (!ESTADOS_META.includes(estado)) {
+        return res.status(400).json({ error: `estado debe ser uno de: ${ESTADOS_META.join(', ')}` })
+      }
+      updates.estado = estado
+    }
 
-    res.json(data)
+    if (Object.keys(updates).length === 0) {
+      return res.status(400).json({ error: 'No se envió ningún campo para actualizar' })
+    }
+
+    res.json(await updateGoalService(id, req.user.id, updates))
   } catch (error) {
-    res.status(500).json({ error: error.message })
+    handleError(res, error, 'UPDATE GOAL')
   }
 }
 
@@ -54,69 +72,37 @@ export const deleteGoal = async (req, res) => {
   try {
     const { id } = req.params
 
-    const data = await deleteGoalService(id, req.user.id)
-
-    res.json(data)
+    res.json(await deleteGoalService(id, req.user.id))
   } catch (error) {
-    res.status(500).json({ error: error.message })
+    handleError(res, error, 'DELETE GOAL')
   }
 }
+
 // ==========================================
 // POST - Crear un aporte a una meta
 // ==========================================
 export const createGoalContribution = async (req, res) => {
   try {
-
     const { id } = req.params
     const { monto, nota } = req.body
 
-    const data = await createGoalContributionService(
-      id,
-      req.user.id,
-      monto,
-      nota
-    )
+    const data = await createGoalContributionService(id, req.user.id, monto, nota)
 
     res.status(201).json(data)
-
   } catch (error) {
-
-    console.error(
-      'CREATE CONTRIBUTION ERROR:',
-      error.message
-    )
-
-    res.status(500).json({
-      error: error.message
-    })
+    handleError(res, error, 'CREATE CONTRIBUTION')
   }
 }
-
 
 // ==========================================
 // GET - Obtener aportes de una meta
 // ==========================================
 export const getGoalContributions = async (req, res) => {
   try {
-
     const { id } = req.params
 
-    const data = await getGoalContributionsService(
-      id,
-      req.user.id
-    )
-
-    res.json(data)
-
+    res.json(await getGoalContributionsService(id, req.user.id))
   } catch (error) {
-
-    console.error(
-      'GET CONTRIBUTIONS ERROR:',
-      error.message
-    )
-
-    res.status(500).json({
-      error: error.message
-    })
+    handleError(res, error, 'GET CONTRIBUTIONS')
   }
 }

@@ -7,6 +7,8 @@ import { authMiddleware } from '../middleware/auth.js'
 // Importar middlewares de validación
 import { validateGoal } from '../middleware/validateGoal.js'
 import { validateGoalUpdate } from '../middleware/validateGoalUpdate.js'
+import { validateContribution } from '../middleware/validateContribution.js'
+import { validateUuidParam } from '../lib/validators.js'
 
 // Importar los controladores
 import {
@@ -17,40 +19,27 @@ import {
   createGoalContribution,
   getGoalContributions
 } from '../controllers/goals.controller.js'
+
 // Crear el router
 const router = Router()
 
-// ==========================================
 // GET - Obtener todas las metas
-// ==========================================
 router.get('/', authMiddleware, getGoals)
 
-// ==========================================
 // POST - Crear una nueva meta
-// ==========================================
 router.post('/', authMiddleware, validateGoal, createGoal)
 
-// ==========================================
 // PUT - Actualizar una meta
-// ==========================================
-router.put('/:id', authMiddleware, validateGoalUpdate, updateGoal)
+router.put('/:id', authMiddleware, validateUuidParam(), validateGoalUpdate, updateGoal)
 
-// ==========================================
 // DELETE - Eliminar una meta
-// ==========================================
-router.delete('/:id', authMiddleware, deleteGoal)
+router.delete('/:id', authMiddleware, validateUuidParam(), deleteGoal)
 
-// ==========================================
 // POST - Crear un aporte
-// ==========================================
-router.post(
-  '/:id/aportes', authMiddleware, createGoalContribution)
+router.post('/:id/aportes', authMiddleware, validateUuidParam(), validateContribution, createGoalContribution)
 
-// ==========================================
 // GET - Obtener aportes
-// ==========================================
-router.get(
-  '/:id/aportes', authMiddleware, getGoalContributions)
+router.get('/:id/aportes', authMiddleware, validateUuidParam(), getGoalContributions)
 
 // Exportar el router
 export default router
