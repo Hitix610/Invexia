@@ -34,6 +34,7 @@ const leerMesAnio = (req, res) => {
 }
 
 // GET /api/budgets?mes=5&anio=2026
+// Lista los presupuestos del usuario con filtros opcionales de mes y año.
 export const getBudgets = async (req, res) => {
   try {
     const filtros = leerMesAnio(req, res)
@@ -46,6 +47,7 @@ export const getBudgets = async (req, res) => {
 }
 
 // GET /api/budgets/status?mes=5&anio=2026  (por defecto el mes actual)
+// Devuelve el gasto acumulado y el estado de cada presupuesto del período.
 export const getBudgetsStatus = async (req, res) => {
   try {
     const filtros = leerMesAnio(req, res)
@@ -57,6 +59,7 @@ export const getBudgetsStatus = async (req, res) => {
   }
 }
 
+// Crea un límite mensual por categoría para el usuario autenticado.
 export const createBudget = async (req, res) => {
   try {
     const { categoria_id, monto_limite, mes, anio } = req.body
@@ -75,6 +78,7 @@ export const createBudget = async (req, res) => {
   }
 }
 
+// Actualiza solo los campos enviados y devuelve 400 si no hay cambios solicitados.
 export const updateBudget = async (req, res) => {
   try {
     const { id } = req.params
@@ -96,6 +100,7 @@ export const updateBudget = async (req, res) => {
   }
 }
 
+// Solicita la eliminación del presupuesto identificado dentro de la cuenta del usuario.
 export const deleteBudget = async (req, res) => {
   try {
     const { id } = req.params

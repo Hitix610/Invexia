@@ -2,6 +2,7 @@ import { supabase } from '../config/supabase.js'
 import { HttpError, must } from '../lib/errors.js'
 import { notifySafe } from './notifications.service.js'
 
+// Calcula el avance redondeado de la meta y lo limita al 100 %.
 const porcentajeMeta = (meta) => {
   const objetivo = Number(meta.monto_objetivo)
   if (!objetivo) return 0

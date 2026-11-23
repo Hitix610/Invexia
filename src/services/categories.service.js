@@ -17,6 +17,7 @@ export const getCategoriesService = async (usuario_id, { tipo } = {}) => {
   return must(await query)
 }
 
+// Crea una categoría personalizada y devuelve la fila que se guardó.
 export const createCategoryService = async (usuario_id, { nombre, icono, color, tipo }) => {
   const rows = must(
     await supabase
@@ -37,6 +38,7 @@ export const createCategoryService = async (usuario_id, { nombre, icono, color, 
   return rows[0]
 }
 
+// Actualiza una categoría del usuario por su identificador y devuelve la fila actualizada.
 export const updateCategoryService = async (id, usuario_id, updates) => {
   // .eq('usuario_id') hace que las categorías predefinidas (usuario_id NULL) no se puedan editar
   const rows = must(
@@ -55,6 +57,7 @@ export const updateCategoryService = async (id, usuario_id, updates) => {
   return rows[0]
 }
 
+// Elimina una categoría personal y devuelve 404 si no encuentra una fila propia con ese identificador.
 export const deleteCategoryService = async (id, usuario_id) => {
   const rows = must(
     await supabase

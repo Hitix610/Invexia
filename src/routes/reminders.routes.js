@@ -11,8 +11,11 @@ import {
 
 const router = Router()
 
+// Lista los recordatorios de la sesión autenticada.
 router.get('/', authMiddleware, getReminders)
+// Valida la configuración del recordatorio antes de crearlo.
 router.post('/', authMiddleware, validateReminder, createReminder)
+// Actualizar y eliminar requieren un UUID de recordatorio. La actualización valida los cambios.
 router.put('/:id', authMiddleware, validateUuidParam(), validateReminderUpdate, updateReminder)
 router.delete('/:id', authMiddleware, validateUuidParam(), deleteReminder)
 

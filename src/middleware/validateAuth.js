@@ -2,8 +2,10 @@ import { esTextoNoVacio, rechazar } from '../lib/validators.js'
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
+// Comprueba el formato básico del correo después de quitar espacios exteriores.
 const emailValido = (email) => typeof email === 'string' && EMAIL_REGEX.test(email.trim())
 
+// Valida correo, contraseña y nombre antes de crear una cuenta.
 // RF-01: contraseña de mínimo 8 caracteres con letras y números
 export const validateRegister = (req, res, next) => {
   const { email, password, nombre } = req.body
@@ -23,6 +25,7 @@ export const validateRegister = (req, res, next) => {
   next()
 }
 
+// Exige un correo con formato válido y una contraseña presente para iniciar sesión.
 export const validateLogin = (req, res, next) => {
   const { email, password } = req.body
 
@@ -33,6 +36,7 @@ export const validateLogin = (req, res, next) => {
   next()
 }
 
+// Valida el correo que recibirá el enlace de recuperación.
 export const validateForgotPassword = (req, res, next) => {
   if (!emailValido(req.body.email)) {
     return rechazar(res, 'email no tiene un formato válido')
@@ -41,6 +45,7 @@ export const validateForgotPassword = (req, res, next) => {
   next()
 }
 
+// Exige el token de renovación para solicitar otra sesión de Supabase.
 export const validateRefresh = (req, res, next) => {
   if (!esTextoNoVacio(req.body.refresh_token)) {
     return rechazar(res, 'refresh_token es obligatorio')

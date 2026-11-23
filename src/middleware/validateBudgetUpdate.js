@@ -1,3 +1,4 @@
+// Comprueba solo los campos enviados al cambiar el límite o el período del presupuesto.
 export const validateBudgetUpdate = (req, res, next) => {
   const { monto_limite, mes, anio } = req.body
 

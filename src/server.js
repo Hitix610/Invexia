@@ -1,4 +1,5 @@
 import express from 'express'
+import { fileURLToPath } from 'node:url'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import reportsRoutes from './routes/reports.routes.js'
@@ -12,9 +13,12 @@ import notificationsRoutes from './routes/notifications.routes.js'
 import remindersRoutes from './routes/reminders.routes.js'
 import profileRoutes from './routes/profile.routes.js'
 import educationRoutes from './routes/education.routes.js'
+import belvoRoutes from './routes/belvo.routes.js'
 
 // cargar variables de entorno
 dotenv.config()
+// Lee la configuración local de Belvo después de la configuración general.
+dotenv.config({ path: '.env.belvo', quiet: true })
 
 const app = express()
 
@@ -34,6 +38,22 @@ app.use('/api/goals', goalsRoutes)
 app.use('/api/notifications', notificationsRoutes)
 app.use('/api/reminders', remindersRoutes)
 app.use('/api/education', educationRoutes)
+// Habilita la API y la página de pruebas de Belvo cuando el entorno es Sandbox.
+if (process.env.BELVO_ENV === 'sandbox') {
+  app.use('/api/belvo', belvoRoutes)
+  const sandboxPage = fileURLToPath(new URL('./belvo-sandbox/', import.meta.url))
+  // Evita almacenar en caché la página y enviar su URL a otros sitios. Restringe los recursos al mismo origen.
+  app.use('/belvo-sandbox', (req, res, next) => {
+    res.set('Cache-Control', 'no-store')
+    res.set('Referrer-Policy', 'no-referrer')
+    res.set('Content-Security-Policy', "default-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'")
+    next()
+  }, express.static(sandboxPage))
+  // Entrega la misma página para que el navegador interprete el resultado del retorno de Belvo.
+  app.get(['/belvo-sandbox/success', '/belvo-sandbox/exit', '/belvo-sandbox/error'], (req, res) => {
+    res.sendFile('index.html', { root: sandboxPage })
+  })
+}
 
 // ruta de prueba
 app.get('/', (req, res) => {
@@ -58,6 +78,7 @@ app.use((err, req, res, next) => {
 // puerto
 const PORT = process.env.PORT || 3000
 
+// Abre el puerto de Express y muestra la dirección local cuando el servidor está listo.
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`)
 })

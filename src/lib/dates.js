@@ -1,9 +1,11 @@
+// Completa los meses de un dígito con un cero para construir fechas ISO.
 const pad = (n) => String(n).padStart(2, '0')
 
 // Fecha de hoy (YYYY-MM-DD) en hora de Colombia, no en UTC
 export const hoyBogota = () =>
   new Date().toLocaleDateString('en-CA', { timeZone: 'America/Bogota' })
 
+// Devuelve el año y el mes actual como números según la fecha de Bogotá.
 export const mesActualBogota = () => {
   const [anio, mes] = hoyBogota().split('-').map(Number)
   return { mes, anio }

@@ -2,7 +2,7 @@
 import { getTransactionsService } from './transactions.service.js'
 
 // ==========================================
-// RESUMEN FINANCIERO
+// Suma los ingresos y los gastos de las transacciones devueltas y calcula el saldo.
 // ==========================================
 export const getSummary = async () => {
 
@@ -30,7 +30,7 @@ export const getSummary = async () => {
 }
 
 // ==========================================
-// GASTOS POR CATEGORÍA
+// Agrupa los gastos por categoría y reúne los gastos sin categoría en un mismo grupo.
 // ==========================================
 export const getExpensesByCategory = async () => {
 

@@ -2,6 +2,7 @@
 
 import { supabase } from '../config/supabase.js'
 
+// Consulta el token en Supabase y deja al usuario autenticado en req.user para la ruta.
 export const authMiddleware = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization

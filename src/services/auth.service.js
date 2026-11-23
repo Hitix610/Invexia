@@ -1,6 +1,7 @@
 import { supabase, createIsolatedClient } from '../config/supabase.js'
 import { HttpError } from '../lib/errors.js'
 
+// Registra al usuario en Supabase Auth y guarda el nombre como metadato de la cuenta.
 export const registerService = async ({
   email,
   password,
@@ -23,6 +24,7 @@ export const registerService = async ({
   return data
 }
 
+// Valida el correo y la contraseña en Supabase Auth y devuelve los datos de sesión.
 export const loginService = async ({ email, password }) => {
   const { data, error } = await supabase.auth.signInWithPassword({
     email,

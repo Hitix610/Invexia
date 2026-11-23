@@ -1,3 +1,4 @@
+// Comprueba los campos enviados al editar una meta. Una fecha límite nula se admite.
 export const validateGoalUpdate = (req, res, next) => {
   const { nombre, monto_objetivo, fecha_limite } = req.body
 

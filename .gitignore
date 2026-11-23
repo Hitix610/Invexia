@@ -1,0 +1,4 @@
+# Configuración local de Belvo y del servidor de Supabase.
+/.env.belvo
+# Metadatos del editor.
+/.idea/

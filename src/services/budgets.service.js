@@ -134,6 +134,7 @@ export const estadoPresupuesto = (porcentaje) => {
   return 'ok'
 }
 
+// Aplica el formato numérico colombiano al monto que se muestra en las alertas.
 const formatoCOP = (n) => Number(n).toLocaleString('es-CO')
 
 // ==========================================

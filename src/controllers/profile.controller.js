@@ -13,6 +13,7 @@ const CAMPOS_EDITABLES = [
 ]
 
 // GET /api/profile
+// Consulta el perfil usando el identificador de la sesión autenticada.
 export const getProfile = async (req, res) => {
   try {
     res.json(await getProfileService(req.user.id))
@@ -22,6 +23,7 @@ export const getProfile = async (req, res) => {
 }
 
 // PUT /api/profile
+// Filtra los campos editables y recorta el texto antes de guardar el perfil.
 export const updateProfile = async (req, res) => {
   try {
     const updates = {}

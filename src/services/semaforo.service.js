@@ -1,6 +1,6 @@
 import { supabase } from '../config/supabase.js'
 
-// Obtener semáforo financiero
+// Recalcula y consulta el semáforo del mes actual para el usuario de prueba configurado abajo.
 export const getFinancialSemaphore = async () => {
 
   // Usuario de prueba

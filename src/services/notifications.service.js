@@ -42,6 +42,7 @@ export const notifySafe = async (payload) => {
   }
 }
 
+// Lista las notificaciones más recientes del usuario, con filtro opcional por estado de lectura.
 export const getNotificationsService = async (usuario_id, { leida, limit = 50 } = {}) => {
   let query = supabase
     .from('notificaciones')
@@ -57,6 +58,7 @@ export const getNotificationsService = async (usuario_id, { leida, limit = 50 } 
   return must(await query)
 }
 
+// Cuenta las notificaciones pendientes de leer sin descargar sus filas.
 export const countUnreadNotificationsService = async (usuario_id) => {
   const { count, error } = await supabase
     .from('notificaciones')
@@ -69,6 +71,7 @@ export const countUnreadNotificationsService = async (usuario_id) => {
   return { count: count ?? 0 }
 }
 
+// Marca una notificación del usuario como leída y devuelve la fila actualizada.
 export const markNotificationReadService = async (id, usuario_id) => {
   const rows = must(
     await supabase
@@ -86,6 +89,7 @@ export const markNotificationReadService = async (id, usuario_id) => {
   return rows[0]
 }
 
+// Marca todas las notificaciones pendientes del usuario y devuelve cuántas se actualizaron.
 export const markAllNotificationsReadService = async (usuario_id) => {
   const rows = must(
     await supabase
@@ -99,6 +103,7 @@ export const markAllNotificationsReadService = async (usuario_id) => {
   return { message: 'Notificaciones marcadas como leídas', actualizadas: rows.length }
 }
 
+// Elimina una notificación del usuario y devuelve 404 si no la encuentra.
 export const deleteNotificationService = async (id, usuario_id) => {
   const rows = must(
     await supabase

@@ -1,11 +1,13 @@
 import { createClient } from '@supabase/supabase-js'
 import dotenv from 'dotenv'
 
+// Carga la configuración antes de construir el cliente que importan los servicios.
 dotenv.config()
 
 console.log('URL:', process.env.SUPABASE_URL)
 console.log('KEY length:', process.env.SUPABASE_KEY?.length)
 
+// Cliente compartido para las consultas de datos y operaciones de autenticación del backend.
 export const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_KEY

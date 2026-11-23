@@ -8,8 +8,10 @@ import { notifySafe } from './notifications.service.js'
 export const XP_POR_NIVEL = 100        // cada 100 XP se sube de nivel (nivel = floor(xp/100) + 1)
 export const PUNTAJE_APROBATORIO = 60  // % mínimo de acierto para dar un quiz por aprobado
 
+// Convierte los puntos de experiencia acumulados en un nivel que empieza en 1.
 export const calcularNivel = (xp) => Math.floor(xp / XP_POR_NIVEL) + 1
 
+// Devuelve el nivel actual y los límites de XP para mostrar el progreso al siguiente nivel.
 export const datosNivel = (xp) => {
   const nivel = calcularNivel(xp)
 
@@ -111,6 +113,7 @@ export const armarEstadoModulos = (modulos, lecciones, progreso, insignias) => {
 // ============================================================
 // Carga de datos
 // ============================================================
+// Consulta módulos activos, lecciones, progreso e insignias y calcula el estado de los módulos.
 const cargarEstadoModulos = async (usuario_id) => {
   const [modulos, lecciones, progreso, insignias] = (
     await Promise.all([
@@ -180,6 +183,7 @@ export const getLessonsService = async (usuario_id, modulo_id) => {
   })
 }
 
+// Busca una lección activa por su identificador y devuelve 404 si no está disponible.
 const cargarLeccion = async (leccion_id) => {
   const leccion = must(
     await supabase
@@ -197,6 +201,7 @@ const cargarLeccion = async (leccion_id) => {
   return leccion
 }
 
+// Carga las preguntas del cuestionario en el mismo orden en que se reciben las respuestas.
 const cargarPreguntas = async (leccion_id) =>
   must(
     await supabase

@@ -1,0 +1,15 @@
+/* Tipografía, colores y panel principal de la página de prueba. */
+body { margin: 0; background: #f2f5f3; color: #14231d; font: 1rem/1.5 system-ui, sans-serif; }
+main { max-width: 34rem; margin: 8vh auto; padding: 2rem; background: #fff; border-radius: 1rem; }
+h1 { margin-top: 0; line-height: 1.15; }
+/* Controles de acceso, selección y sincronización. */
+label { display: block; margin: 0.8rem 0; }
+input, select, button { box-sizing: border-box; font: inherit; padding: 0.6rem 0.8rem; border-radius: 0.45rem; }
+input, select { display: block; width: 100%; border: 1px solid #698178; }
+button { margin: 0.3rem 0; color: white; background: #135844; border: 1px solid #135844; cursor: pointer; }
+#logout { background: white; color: #135844; }
+/* Ajustes de mensajes, vista previa y pantallas estrechas. */
+#status, #import-status, #import-data { overflow-wrap: anywhere; }
+#import { border-top: 1px solid #d8e3dc; margin-top: 1.5rem; }
+#import-data li { margin-bottom: 0.5rem; }
+@media (max-width: 40rem) { main { margin: 1rem; padding: 1.25rem; } }

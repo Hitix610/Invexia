@@ -5,7 +5,8 @@
   "type": "module",
   "main": "src/server.js",
   "scripts": {
-    "dev": "node src/server.js"
+    "dev": "node src/server.js",
+    "belvo:check": "node src/scripts/check-belvo.js"
   },
   "keywords": [],
   "author": "",

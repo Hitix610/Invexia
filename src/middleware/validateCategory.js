@@ -3,6 +3,7 @@ import { esTextoNoVacio, rechazar } from '../lib/validators.js'
 const TIPOS = ['ingreso', 'gasto', 'ambos']
 const COLOR_HEX = /^#[0-9a-fA-F]{6}$/
 
+// Comprueba la longitud del icono y el formato hexadecimal del color cuando se especifican.
 const validarOpcionales = (res, { icono, color }) => {
   if (icono !== undefined && icono !== null && (typeof icono !== 'string' || icono.length > 50)) {
     rechazar(res, 'icono debe ser texto de máximo 50 caracteres')

@@ -82,6 +82,7 @@ export const createTransactionService = async ({
 // ======================================================
 const CAMPOS_BANCARIOS_BLOQUEADOS = ['monto', 'tipo', 'fecha', 'cuenta_id']
 
+// Verifica que la transacción pertenezca al usuario antes de validar y guardar los cambios.
 export const updateTransactionService = async (id, usuario_id, updates) => {
   const actual = must(
     await supabase
@@ -96,7 +97,7 @@ export const updateTransactionService = async (id, usuario_id, updates) => {
     throw new HttpError(404, 'Transacción no encontrada')
   }
 
-  // Los datos que vienen del banco no se editan (RF-21: solo se corrige la categoría)
+  // En movimientos de Belvo se bloquean los cambios de monto, tipo, fecha y cuenta.
   if (actual.fuente === 'belvo') {
     const prohibidos = CAMPOS_BANCARIOS_BLOQUEADOS.filter((c) => updates[c] !== undefined)
 

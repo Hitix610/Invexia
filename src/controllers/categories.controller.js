@@ -7,6 +7,7 @@ import {
 import { handleError } from '../lib/errors.js'
 
 // GET /api/categories?tipo=gasto
+// Valida el filtro de ingreso o gasto antes de listar las categorías visibles.
 export const getCategories = async (req, res) => {
   try {
     const { tipo } = req.query
@@ -21,6 +22,7 @@ export const getCategories = async (req, res) => {
   }
 }
 
+// Crea una categoría personalizada con el nombre, el tipo y los detalles visuales enviados.
 export const createCategory = async (req, res) => {
   try {
     const { nombre, icono, color, tipo } = req.body
@@ -32,6 +34,7 @@ export const createCategory = async (req, res) => {
   }
 }
 
+// Aplica solo los campos editables enviados y recorta los espacios del nombre.
 export const updateCategory = async (req, res) => {
   try {
     const { nombre, icono, color, tipo } = req.body
@@ -52,6 +55,7 @@ export const updateCategory = async (req, res) => {
   }
 }
 
+// Solicita la eliminación de una categoría propia mediante su identificador.
 export const deleteCategory = async (req, res) => {
   try {
     res.json(await deleteCategoryService(req.params.id, req.user.id))

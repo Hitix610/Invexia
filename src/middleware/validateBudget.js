@@ -1,3 +1,4 @@
+// Comprueba la categoría, el límite positivo y el período al crear un presupuesto mensual.
 export const validateBudget = (req, res, next) => {
   const { categoria_id, monto_limite, mes, anio } = req.body
 

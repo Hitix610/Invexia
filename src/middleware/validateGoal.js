@@ -1,3 +1,4 @@
+// Comprueba el nombre, el monto objetivo positivo y la fecha límite opcional de una meta nueva.
 export const validateGoal = (req, res, next) => {
   const { nombre, monto_objetivo, fecha_limite } = req.body
 

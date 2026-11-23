@@ -2,8 +2,10 @@ import { HttpError } from './errors.js'
 
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
+// Comprueba que el identificador sea una cadena con el formato hexadecimal de UUID.
 export const esUUID = (valor) => typeof valor === 'string' && UUID_REGEX.test(valor)
 
+// Acepta números y cadenas numéricas finitas mayores que cero y menores que 10¹³.
 export const esNumeroPositivo = (valor) => {
   if (typeof valor === 'string' && valor.trim() === '') return false
   if (typeof valor !== 'number' && typeof valor !== 'string') return false
@@ -12,6 +14,7 @@ export const esNumeroPositivo = (valor) => {
   return Number.isFinite(n) && n > 0 && n < 1e13
 }
 
+// Comprueba que la cadena conserve algún carácter después de quitar espacios exteriores.
 export const esTextoNoVacio = (valor) =>
   typeof valor === 'string' && valor.trim() !== ''
 

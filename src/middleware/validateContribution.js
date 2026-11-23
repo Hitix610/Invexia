@@ -1,6 +1,7 @@
 import { esNumeroPositivo, rechazar } from '../lib/validators.js'
 
 // POST /api/goals/:id/aportes
+// Comprueba que el aporte tenga un monto positivo y una nota opcional de hasta 500 caracteres.
 export const validateContribution = (req, res, next) => {
   const { monto, nota } = req.body
 
